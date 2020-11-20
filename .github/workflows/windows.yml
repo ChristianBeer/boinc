@@ -26,5 +26,5 @@ jobs:
           #C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\vsdevcmd.bat
 
       - name: build
-        run: msbuild win_build\boinc_vs2019.sln /p:Configuration=${{ matrix.configuration }};Platform=${{ matrix.platform }};VcpkgTripletConfig=ci -m
+        run: msbuild win_build\boinc_vs2019.sln -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }} -p:VcpkgTripletConfig=ci -m
     
