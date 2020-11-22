@@ -1,7 +1,7 @@
 name: Linux
 on:
   push:
-    branches: [ master, cb_action_test ]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -26,6 +26,7 @@ jobs:
         with:
           path: 3rdParty/buildCache
           key: linux-${{ matrix.type }}-${{ hashFiles('3rdParty/*Linux*.sh') }}
+          restore-keys: linux-${{ matrix.type }}-
 
       - name: automake
         if: ${{ success() }}
