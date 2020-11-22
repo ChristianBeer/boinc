@@ -1,7 +1,7 @@
 name: Windows
 on:
   push:
-    branches: [ master, cb_action_test ]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
