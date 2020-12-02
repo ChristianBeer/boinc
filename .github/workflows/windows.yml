@@ -43,4 +43,4 @@ jobs:
         run: msbuild win_build\boinc_vs2019.sln -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }} -p:VcpkgTripletConfig=ci -m
 
       - name: run tests
-        run: vstest.console.exe win_build\Build\${{ matrix.platform }}\${{ matrix.configuration }}\unittests.exe /TestAdapterPath:${{ github.workspace }}\temp\GoogleTestAdapter /logger:Appveyor
+        run: vstest.console.exe win_build\Build\${{ matrix.platform }}\${{ matrix.configuration }}\unittests.exe /TestAdapterPath:${{ github.workspace }}\temp\GoogleTestAdapter
