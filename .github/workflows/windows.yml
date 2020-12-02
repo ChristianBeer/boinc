@@ -22,12 +22,12 @@ jobs:
         id: DownloadGoogleTestAdapter
         with:
           url: "https://github.com/csoltenborn/GoogleTestAdapter/releases/download/v0.18.0/GoogleTestAdapter-0.18.0.vsix"
-          target: ${{ github.workspace }}/temp/
+          target: ${{ github.workspace }}\temp\
       
       - name: unzip GoogleTestAdapter
         uses: DuckSoft/extract-7z-action@v1.0
         with:
-          pathSource: ${{ github.workspace }}\temp\GoogleTestAdapter.zip
+          pathSource: ${{ github.workspace }}\temp\GoogleTestAdapter-0.18.0.vsix
           pathTarget: ${{ github.workspace }}\temp\GoogleTestAdapter
 
       - name: setup-msbuild
