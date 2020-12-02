@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     name: ${{ matrix.configuration }}-${{ matrix.platform }}-build
-    runs-on: windows-2019
+    runs-on: windows-latest
     strategy:
       matrix:
         platform: [x64]
@@ -16,15 +16,30 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+
+      - name: download GoogleTestAdapter
+        uses: suisei-cn/actions-download-file@v1
+        id: DownloadGoogleTestAdapter
+        with:
+          url: "https://github.com/csoltenborn/GoogleTestAdapter/releases/download/v0.18.0/GoogleTestAdapter-0.18.0.vsix"
+          target: ${{ github.workspace }}/temp/
+      
+      - name: unzip GoogleTestAdapter
+        uses: edgarrc/action-7z@v1.0.4
+        with:
+          args: 7z x ${{ github.workspace }}\temp\GoogleTestAdapter.zip -o${{ github.workspace }}\temp\GoogleTestAdapter -aoa
+
       - name: setup-msbuild
         uses: microsoft/setup-msbuild@v1
 
-      - name: Install dependencies
-        run: |
-          vcpkg.exe integrate remove
-          #vsdevcmd.bat
-          #C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\vsdevcmd.bat
+      - name: setup-vstest
+        uses: darenm/Setup-VSTest@v1
+
+      - name: fix vcpkg
+        run: vcpkg.exe integrate remove
 
       - name: build
         run: msbuild win_build\boinc_vs2019.sln -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }} -p:VcpkgTripletConfig=ci -m
-    
+
+      - name: run tests
+        run: vstest.console.exe win_build\Build\${{ matrix.platform }}\{{ matrix.configuration }}\unittests.exe /TestAdapterPath:${{ github.workspace }}\temp\GoogleTestAdapter /logger:Appveyor
