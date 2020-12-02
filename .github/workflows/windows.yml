@@ -25,9 +25,10 @@ jobs:
           target: ${{ github.workspace }}/temp/
       
       - name: unzip GoogleTestAdapter
-        uses: edgarrc/action-7z@v1.0.4
+        uses: DuckSoft/extract-7z-action@v1.0
         with:
-          args: 7z x ${{ github.workspace }}\temp\GoogleTestAdapter.zip -o${{ github.workspace }}\temp\GoogleTestAdapter -aoa
+          pathSource: ${{ github.workspace }}\temp\GoogleTestAdapter.zip
+          pathTarget: ${{ github.workspace }}\temp\GoogleTestAdapter
 
       - name: setup-msbuild
         uses: microsoft/setup-msbuild@v1
