@@ -44,8 +44,8 @@ jobs:
         uses: actions/cache@v2.1.3
         with:
           path: ${{ github.workspace }}\vcpkgcache\
-          key: windows-${{ matrix.type }}-${{ hashFiles('win_build/vcpkg_3rdparty_dependencies_vs2019.vcxproj') }}
-          restore-keys: windows-${{ matrix.type }}-        
+          key: windows-${{ matrix.platform }}-${{ matrix.configuration }}-${{ hashFiles('win_build/vcpkg_3rdparty_dependencies_vs2019.vcxproj') }}
+          restore-keys: windows-${{ matrix.platform }}-${{ matrix.configuration }}-
 
       - name: Build
         run: msbuild win_build\boinc_vs2019.sln -p:Configuration=${{ matrix.configuration }} -p:Platform=${{ matrix.platform }} -p:VcpkgTripletConfig=ci -m
