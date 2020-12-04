@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, server, client, apps, manager1, manager2, libs-mingw, apps-mingw]
+        type: [libs, server, client, apps, manager-with-webview, manager-without-webview, libs-mingw, apps-mingw]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
 
-      - name: install dependencies
+      - name: Install dependencies
         run: |
           sudo apt-get -qq update
           sudo apt-get install -y freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk2.0-dev libwebkitgtk-dev mingw-w64 binutils-mingw-w64-i686 binutils-mingw-w64-x86-64 gcc-mingw-w64 gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 g++-mingw-w64 g++-mingw-w64-i686 g++-mingw-w64-x86-64 p7zip-full
@@ -28,43 +28,47 @@ jobs:
           key: linux-${{ matrix.type }}-${{ hashFiles('3rdParty/*Linux*.sh') }}
           restore-keys: linux-${{ matrix.type }}-
 
-      - name: automake
+      - name: Automake
         if: ${{ success() }}
         run: ./_autosetup
 
-      - name: configure libs
+      - name: Configure libs
         if: ${{ success() && matrix.type == 'libs' }}
         run: ./configure --disable-server --disable-client --disable-manager
 
-      - name: configure server
+      - name: Configure server
         if: ${{ success() && matrix.type == 'server' }}
         run: ./configure --enable-server --disable-client --disable-manager
 
-      - name: configure client
+      - name: Configure client
         if: ${{ success() && matrix.type == 'client' }}
         run: ./configure --disable-server --enable-client --disable-manager
         
-      - name: configure apps
+      - name: Configure apps
         if: success() && matrix.type == 'apps'
         run: ./configure --enable-apps --disable-server --disable-client --disable-manager
 
-      - name: configure manager with webview
-        if: success() && matrix.type == 'manager1'
+      - name: Configure manager with webview
+        if: success() && matrix.type == 'manager-with-webview'
         run: ./3rdParty/buildLinuxDependencies.sh && ./configure --disable-server --disable-client --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
 
-      - name: configure manager without webview
-        if: success() && matrix.type == 'manager2'
+      - name: Configure manager without webview
+        if: success() && matrix.type == 'manager-without-webview'
         run: ./3rdParty/buildLinuxDependencies.sh --disable-webview && ./configure --disable-server --disable-client --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
 
-      - name: make libs with mingw
+      - name: Make libs with mingw
         if: success() && matrix.type == 'libs-mingw'
         run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw
+
+      - name: Make apps with mingw
+        if: success() && matrix.type == 'libs-mingw'
+        run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper
         
-      - name: make
+      - name: Make
         if: success() && ! contains(matrix.type, 'mingw')
         run: make
 
-      - name: deploy
+      - name: Deploy
         if: ${{ success() }}
         run: echo "Would start deployment now"
         #run: ./deploy/prepare_deployment.sh ${BOINC_TYPE} deploy/${BOINC_TYPE}/ && ./deploy/deploy_to_bintray.sh deploy/${BOINC_TYPE}/
