@@ -61,7 +61,7 @@ jobs:
         run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw
 
       - name: Make apps with mingw
-        if: success() && matrix.type == 'libs-mingw'
+        if: success() && matrix.type == 'apps-mingw'
         run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper
         
       - name: Make
