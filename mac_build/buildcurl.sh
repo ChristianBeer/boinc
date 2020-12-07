@@ -113,6 +113,7 @@ while [[ $# -gt 0 ]]; do
         lprefix="$2"
         libPath="${lprefix}/lib"
         libcares="$libPath"
+        echo "libcares: ${libcares}"
         shift
         ;;
         -q|--quiet)
