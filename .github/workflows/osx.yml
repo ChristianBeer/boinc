@@ -26,7 +26,7 @@ jobs:
 #          key: osx-${{ matrix.type }}-${{ hashFiles('3rdParty/*Mac*.sh', 'mac_build/dependencyNames.sh', 'mac_build/[bB]uild*.sh') }}
 
       - name: install dependencies
-        run: ./3rdParty/buildMacDependencies.sh -q
+        run: ./3rdParty/buildMacDependencies.sh
 
       - name: make
         if: success()
