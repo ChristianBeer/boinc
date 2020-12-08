@@ -39,9 +39,9 @@ opensslDirName="openssl-1.1.0l"
 opensslFileName="openssl-1.1.0l.tar.gz"
 opensslURL="https://www.openssl.org/source/openssl-1.1.0l.tar.gz"
 
-caresDirName="c-ares-1.17.1"
-caresFileName="c-ares-1.17.1.tar.gz"
-caresURL="https://c-ares.haxx.se/download/c-ares-1.17.1.tar.gz"
+caresDirName="c-ares-1.13.0"
+caresFileName="c-ares-1.13.0.tar.gz"
+caresURL="https://c-ares.haxx.se/download/c-ares-1.13.0.tar.gz"
 
 curlDirName="curl-7.73.0"
 curlFileName="curl-7.73.0.tar.gz"
