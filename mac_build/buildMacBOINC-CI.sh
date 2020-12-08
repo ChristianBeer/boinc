@@ -84,6 +84,8 @@ if [ ${share_paths} = "yes" ]; then
     if [ "${style}" == "Development" ]; then
         libSearchPathDbg="./build/Development  ${cache_dir}/lib/debug"
     fi
+    echo "Looking for openssl/rsa.h"
+    find ${cache_dir}/include -name rsa.h
     source BuildMacBOINC.sh ${config} -all -setting HEADER_SEARCH_PATHS "../clientgui ${cache_dir}/include ../samples/jpeglib ${cache_dir}/include/freetype2" -setting USER_HEADER_SEARCH_PATHS "" -setting LIBRARY_SEARCH_PATHS "$libSearchPathDbg ${cache_dir}/lib ../lib" | tee xcodebuild_all.log | $beautifier; retval=${PIPESTATUS[0]}
     if [ $retval -ne 0 ]; then
         curl --upload-file ./xcodebuild_all.log https://transfer.sh/xcodebuild_all.log
