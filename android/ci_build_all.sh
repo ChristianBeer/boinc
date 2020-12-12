@@ -28,6 +28,8 @@ cd BOINC
 
 echo '===== BOINC Manager build start ====='
 
+javac -version
+
 ./gradlew clean assemble jacocoTestReportDebug
 
 echo '===== BOINC Manager build done ====='
