@@ -28,11 +28,6 @@ cd BOINC
 
 echo '===== BOINC Manager build start ====='
 
-sdkmanager --update
-sdkmanager "extras;android;m2repository" "extras;google;m2repository"
-sdkmanager "build-tools;29.0.3"
-sdkmanager "platforms;android-29"
-
 ./gradlew clean assemble jacocoTestReportDebug
 
 echo '===== BOINC Manager build done ====='
