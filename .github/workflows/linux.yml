@@ -77,6 +77,6 @@ jobs:
         run: ./tests/executeUnitTests.sh --report-coverage
 
       - name: Deploy
-        if: success() && ! contains(matrix-type, 'test')
+        if: success() && ! contains(matrix.type, 'test')
         run: echo "Would start deployment now"
         #run: ./deploy/prepare_deployment.sh ${BOINC_TYPE} deploy/${BOINC_TYPE}/ && ./deploy/deploy_to_bintray.sh deploy/${BOINC_TYPE}/
