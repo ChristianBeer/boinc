@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, server, client, apps, manager-with-webview, manager-without-webview, libs-mingw, apps-mingw]
+        type: [libs, server, client, apps, manager-with-webview, manager-without-webview, libs-mingw, apps-mingw, unit-test]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
@@ -64,11 +64,19 @@ jobs:
         if: success() && matrix.type == 'apps-mingw'
         run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper
         
+      - name: Configure server for unit testing
+        if: success() && matrix.type == 'unit-test'
+        run: ./3rdParty/buildLinuxDependencies.sh --gtest-only && ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0"
+        
       - name: Make
         if: success() && ! contains(matrix.type, 'mingw')
         run: make
 
+      - name: Execute unit-test and report coverage
+        if: success() && matrix.type == 'unit-test'
+        run: ./tests/executeUnitTests.sh --report-coverage
+
       - name: Deploy
-        if: ${{ success() }}
+        if: success() && ! contains(matrix-type, 'test')
         run: echo "Would start deployment now"
         #run: ./deploy/prepare_deployment.sh ${BOINC_TYPE} deploy/${BOINC_TYPE}/ && ./deploy/deploy_to_bintray.sh deploy/${BOINC_TYPE}/
