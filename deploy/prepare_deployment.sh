@@ -2,7 +2,7 @@
 
 # This file is part of BOINC.
 # http://boinc.berkeley.edu
-# Copyright (C) 2018 University of California
+# Copyright (C) 2020 University of California
 #
 # BOINC is free software; you can redistribute it and/or modify it
 # under the terms of the GNU Lesser General Public License
@@ -101,7 +101,7 @@ prepare_android() {
 ROOTDIR=$(pwd)
 if [[ $# -eq 0 || $# -gt 2 ]]; then
     echo "Usage: $0 BOINC_TYPE [TARGET_DIR]"
-    echo "BOINC_TYPE : [client | apps | manager | apps-mingw | manager-osx | manager-android]"
+    echo "BOINC_TYPE : [client | apps | manager-with-webview | manager-without-webview | apps-mingw | manager-osx | manager-android]"
     echo "TARGET_DIR : relative path where binaries should be copied to (default: deploy/BOINC_TYPE/)"
     exit 1
 fi
@@ -116,7 +116,10 @@ case $TYPE in
     apps)
         prepare_apps
     ;;
-    manager)
+    manager-with-webview)
+        prepare_manager
+    ;;
+    manager-without-webview)
         prepare_manager
     ;;
     apps-mingw)

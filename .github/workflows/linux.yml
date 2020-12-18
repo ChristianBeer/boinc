@@ -83,11 +83,11 @@ jobs:
         if: success() && matrix.type == 'unit-test'
         run: ./tests/executeUnitTests.sh --report-coverage
 
-      - name: Execute unit-test and report coverage
+      - name: Execute integration-test and report coverage
         if: success() && matrix.type == 'integration-test'
         run: ./integration_test/executeTestSuite.sh
 
-      - name: Deploy
-        if: success() && ! contains(matrix.type, 'test')
-        run: echo "Would start deployment now"
-        #run: ./deploy/prepare_deployment.sh ${BOINC_TYPE} deploy/${BOINC_TYPE}/ && ./deploy/deploy_to_bintray.sh deploy/${BOINC_TYPE}/
+      - name: Prepare deployment
+        if: ${{ success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'libs-mingw') && ! contains(matrix.type, 'test') }}
+        run: ./deploy/prepare_deployment.sh ${{ matrix.type }} deploy/${{ matrix.type }}/ 
+        #&& ./deploy/deploy_to_bintray.sh deploy/${BOINC_TYPE}/
