@@ -83,7 +83,7 @@ jobs:
         if: success() && matrix.type == 'unit-test'
         run: ./tests/executeUnitTests.sh --report-coverage
 
-      - name: Execute integration-test and report coverage
+      - name: Execute integration-test
         if: success() && matrix.type == 'integration-test'
         run: ./integration_test/executeTestSuite.sh
 
