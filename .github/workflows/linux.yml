@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies for integration testing
         if: matrix.type == 'integration-test'
         run: |
-          sudo apt-get install ansible/xenial-backports
+          sudo apt-get install ansible
           sudo service mysql stop
           ./integration_test/installTestSuite.sh
 
