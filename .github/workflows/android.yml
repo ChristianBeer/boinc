@@ -32,4 +32,6 @@ jobs:
           restore-keys: android-${{ matrix.type }}-
 
       - name: Build
-        run: ./android/ci_build_all.sh
+        run:  |
+          ./android/ci_build_all.sh
+          bash <(curl -s https://codecov.io/bash)
