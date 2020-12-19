@@ -150,5 +150,5 @@ fi
 # fi
 
 if [[ $RUN_CLEANUP == "true" ]]; then
-    ./deploy/cleanup_bintray.sh
+    ./deploy/cleanup_bintray.sh --api_key ${BINTRAY_API_KEY}
 fi
