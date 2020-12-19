@@ -33,7 +33,7 @@ if [ ! -d "deploy" ]; then
 fi
 
 ROOTDIR=$(pwd)
-if [[ $# != 3 ]]; then
+if [[ $# != 1 ]]; then
     echo "Usage: $0 SOURCE_DIR"
     echo "SOURCE_DIR : relative path where binaries are, last component is used as BOINC_TYPE"
     exit 1
