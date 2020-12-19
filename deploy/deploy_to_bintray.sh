@@ -77,7 +77,7 @@ if [[ $CI_RUN == "true" ]]; then
     case $GITHUB_EVENT_NAME in
         pull_request)
             PKG_NAME="pull-requests"
-            GIT_REV=${GITHUB_SHA:0:8}
+            GIT_REV=${PULL_REQUEST_SHA:0:8}
             VERSION="PR${PULL_REQUEST}_${BUILD_DATE}_${GIT_REV}"
             VERSION_DESC="CI build created from PR #${PULL_REQUEST} on ${BUILD_DATE}"
         ;;
