@@ -34,7 +34,7 @@ fi
 
 ROOTDIR=$(pwd)
 if [[ $# != 3 ]]; then
-    echo "Usage: $0 SOURCE_DIR BINTRAY_API_KEY PULL_REQUEST"
+    echo "Usage: $0 SOURCE_DIR"
     echo "SOURCE_DIR : relative path where binaries are, last component is used as BOINC_TYPE"
     exit 1
 fi
@@ -44,16 +44,15 @@ if [[ ! -d "${SOURCE_DIR}" || $(ls -A "${SOURCE_DIR}" | wc -l) -eq 0 ]]; then
     echo "Directory '$SOURCE_DIR' doesn't exist or is empty";
     exit 1;
 fi
-BINTRAY_API_KEY=$2
+
 # for PR's this is set if the PR comes from within the same repository
 if [ "${BINTRAY_API_KEY}" == "" ] ; then
     echo "BINTRAY_API_KEY is missing; doing nothing"
     exit 0
 fi
 
-PULL_REQUEST=$3
-
-CI_RUN="${CI:-false}"
+#CI_RUN="${GITHUB_ACTIONS:-false}"
+CI_RUN="false"
 BOINC_TYPE="$(basename "${SOURCE_DIR}")" # TODO: do not infer TYPE from directory, instead make it an argument
 API=https://api.bintray.com
 BINTRAY_USER="${BINTRAY_USER:-ChristianBeer}"
@@ -150,5 +149,5 @@ fi
 # fi
 
 if [[ $RUN_CLEANUP == "true" ]]; then
-    ./deploy/cleanup_bintray.sh --api_key ${BINTRAY_API_KEY}
+    ./deploy/cleanup_bintray.sh
 fi
