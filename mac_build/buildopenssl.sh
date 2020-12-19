@@ -272,7 +272,7 @@ if [ $GCC_can_build_arm64 == "yes" ]; then
     myScriptDir="${myScriptPath%/*}"
     source "${myScriptDir}/dependencyNames.sh"
 
-    if [ "${opensslDirName}" != "openssl-1.1.0l" ]; then
+    if [ "${opensslDirName}" != "openssl-1.1.0g" ]; then
     echo "${opensslDirName}"
         echo "************ NOTICE ****************"
         echo "New version of openssl may have better arm64 darwin support"

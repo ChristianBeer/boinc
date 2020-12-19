@@ -47,10 +47,6 @@ while [[ $# -gt 0 ]]; do
         weekly_threshold="$2"
         shift
         ;;
-        --api_key)
-        BINTRAY_API_KEY=$2
-        shift
-        ;;
         *)
         echo "unrecognized option $key"
         ;;
