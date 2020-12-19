@@ -91,6 +91,9 @@ jobs:
 
       - name: Deploy to BinTray
         if: ${{ success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'libs-mingw') && ! contains(matrix.type, 'test') }}
+        env:
+          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
+          PULL_REQUEST: ${{ github.event.number }}
         run: |
           ./deploy/prepare_deployment.sh ${{ matrix.type }} deploy/${{ matrix.type }}/ 
-          ./deploy/deploy_to_bintray.sh deploy/${{ matrix.type }}/ ${{ secrets.BINTRAY_API_KEY }} ${{ github.event.number }}
+          ./deploy/deploy_to_bintray.sh deploy/${{ matrix.type }}/
