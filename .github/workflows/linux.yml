@@ -4,6 +4,8 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+  schedule:
+    - cron:  '* * * * 0'
 
 jobs:
   build:
@@ -87,7 +89,8 @@ jobs:
         if: success() && matrix.type == 'integration-test'
         run: ./integration_test/executeTestSuite.sh
 
-      - name: Prepare deployment
+      - name: Deploy to BinTray
         if: ${{ success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'libs-mingw') && ! contains(matrix.type, 'test') }}
-        run: ./deploy/prepare_deployment.sh ${{ matrix.type }} deploy/${{ matrix.type }}/ 
-        #&& ./deploy/deploy_to_bintray.sh deploy/${BOINC_TYPE}/
+        run: |
+          ./deploy/prepare_deployment.sh ${{ matrix.type }} deploy/${{ matrix.type }}/ 
+          ./deploy/deploy_to_bintray.sh deploy/${{ matrix.type }}/ ${{ secrets.BINTRAY_API_KEY }} ${{ github.event.number }}
