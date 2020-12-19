@@ -37,3 +37,9 @@ jobs:
         run:  |
           ./android/ci_build_all.sh
           bash <(curl -s https://codecov.io/bash)
+
+      - name: Deploy to BinTray
+        if: ${{ success() }}
+        run: |
+          ./deploy/prepare_deployment.sh android-${{ matrix.type }} deploy/android-${{ matrix.type }}/ 
+          ./deploy/deploy_to_bintray.sh deploy/android-${{ matrix.type }}/ ${{ secrets.BINTRAY_API_KEY }} ${{ github.event.number }}
