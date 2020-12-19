@@ -41,5 +41,5 @@ jobs:
       - name: Deploy to BinTray
         if: ${{ success() }}
         run: |
-          ./deploy/prepare_deployment.sh android-${{ matrix.type }} deploy/android-${{ matrix.type }}/ 
-          ./deploy/deploy_to_bintray.sh deploy/android-${{ matrix.type }}/ ${{ secrets.BINTRAY_API_KEY }} ${{ github.event.number }}
+          ./deploy/prepare_deployment.sh ${{ matrix.type }}-android deploy/${{ matrix.type }}-android/ 
+          ./deploy/deploy_to_bintray.sh deploy/${{ matrix.type }}-android/ ${{ secrets.BINTRAY_API_KEY }} ${{ github.event.number }}
