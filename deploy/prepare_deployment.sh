@@ -85,6 +85,8 @@ prepare_manager() {
 
 prepare_apps_mingw() {
     mkdir -p "${TARGET_DIR}"
+    cp_if_exists lib/wrapper.exe "${TARGET_DIR}"
+    prepare_7z_archive
 }
 
 prepare_osx() {
