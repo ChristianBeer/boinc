@@ -103,7 +103,7 @@ prepare_android() {
 ROOTDIR=$(pwd)
 if [[ $# -eq 0 || $# -gt 2 ]]; then
     echo "Usage: $0 BOINC_TYPE [TARGET_DIR]"
-    echo "BOINC_TYPE : [client | apps | manager-with-webview | manager-without-webview | apps-mingw | manager-osx | manager-android]"
+    echo "BOINC_TYPE : [linux_client | linux_apps | linux_manager-with-webview | linux_manager-without-webview | linux_apps-mingw | osx_manager | android_manager]"
     echo "TARGET_DIR : relative path where binaries should be copied to (default: deploy/BOINC_TYPE/)"
     exit 1
 fi
@@ -112,25 +112,25 @@ TYPE="$1"
 TARGET_DIR="${2:-deploy/$TYPE/}"
 
 case $TYPE in
-    client)
+    linux_client)
         prepare_client
     ;;
-    apps)
+    linux_apps)
         prepare_apps
     ;;
-    manager-with-webview)
+    linux_manager-with-webview)
         prepare_manager
     ;;
-    manager-without-webview)
+    linux_manager-without-webview)
         prepare_manager
     ;;
-    apps-mingw)
+    linux_apps-mingw)
         prepare_apps_mingw
     ;;
-    manager-osx)
+    osx_manager)
         prepare_osx
     ;;
-    manager-android)
+    android_manager)
         prepare_android
     ;;
     *)
