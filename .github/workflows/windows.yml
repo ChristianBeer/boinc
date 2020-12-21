@@ -78,6 +78,8 @@ jobs:
           PULL_REQUEST: ${{ github.event.number }}
           PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
           CURL_PATH: ${{ github.workspace }}\temp\curl-7.74.0_2-win64-mingw\bin\
+          platform: ${{ matrix.platform }}
+          configuration: ${{ matrix.configuration }}
         run: |
           deploy\prepare_deployment.bat
           deploy\deploy_to_bintray.bat
