@@ -6,7 +6,7 @@ set build_date=%YYYY%-%MM%-%DD%
 
 rem Default values because %bintray_deploy% is currently unused
 set pkg_name=custom
-set git_rev=%GITHUB_SHA:~0,8%
+set git_rev=%GITHUB_SHA:~0,7%
 set pkg_version=custom_%build_date%_!git_rev!
 set pkg_version_desc=Custom build created on %build_date%
 rem if not defined GITHUB_ACTIONS (
@@ -19,7 +19,7 @@ set bintray_deploy=True
 if "%CI_RUN%" == "True" (
     if "%GITHUB_EVENT_NAME%" == "pull_request" (
         set pkg_name=pull-requests
-        set git_rev=%PULL_REQUEST_SHA:~0,8%
+        set git_rev=%PULL_REQUEST_SHA:~0,7%
         set pkg_version=PR%PULL_REQUEST%_%build_date%_!git_rev!
         set pkg_version_desc=CI build created from PR #%PULL_REQUEST% on %build_date%
         set bintray_deploy=True
@@ -32,7 +32,7 @@ if "%CI_RUN%" == "True" (
     )
     if "%GITHUB_EVENT_NAME%" == "push" (
         set pkg_name=master
-        set git_rev=%GITHUB_SHA:~0,8%
+        set git_rev=%GITHUB_SHA:~0,7%
         set pkg_version=master_%build_date%_!git_rev!
         set pkg_version_desc=Custom build created on %build_date%
         set bintray_deploy=True
@@ -55,7 +55,7 @@ copy "win_build\Build\%platform%\%configuration%\slide_show.exe" "deploy\win-app
 copy "win_build\Build\%platform%\%configuration%\test*.exe" "deploy\win-apps\"
 copy "win_build\Build\%platform%\%configuration%\wrappture*.exe" "deploy\win-apps\"
 cd deploy\win-apps
-7z a win-apps_!pkg_version!_%platform%.7z *.exe
+7z a win-apps_!pkg_version!.7z *.exe
 cd ..\..
 
 if not exist "deploy\win-client" mkdir deploy\win-client
@@ -65,14 +65,14 @@ copy "win_build\Build\%platform%\%configuration%\boinccmd.exe" "deploy\win-clien
 copy "win_build\Build\%platform%\%configuration%\boincscr.exe" "deploy\win-client\"
 copy "win_build\Build\%platform%\%configuration%\boinc.scr" "deploy\win-client\"
 cd deploy\win-client
-7z a win-client_!pkg_version!_%platform%.7z *.exe *.scr
+7z a win-client_!pkg_version!.7z *.exe *.scr
 cd ..\..
 
 if not exist "deploy\win-manager" mkdir deploy\win-manager
 copy "win_build\Build\%platform%\%configuration%\boinctray.exe" "deploy\win-manager\"
 copy "win_build\Build\%platform%\%configuration%\boincmgr.exe" "deploy\win-manager\"
 cd deploy\win-manager
-7z a win-manager_!pkg_version!_%platform%.7z *.exe
+7z a win-manager_!pkg_version!.7z *.exe
 cd ..\..
 
 rem setlocal mode is very 'interesting'

@@ -56,7 +56,7 @@ if not defined build_date (
     set build_date=%YYYY%-%MM%-%DD%
 )
 if not defined git_rev (
-    set git_rev=%GITHUB_SHA:~0,8%
+    set git_rev=%GITHUB_SHA:~0,7%
 )
 if not defined pkg_version (
     set pkg_version=custom_%build_date%_!git_rev!
@@ -69,19 +69,19 @@ echo Creating version !pkg_version!...
 set data={\"name\": \"!pkg_version!\", \"desc\": \"!pkg_version_desc!\"}
 %CURL% -H Content-Type:application/json -X POST -d "%data%" "%API%/packages/%BINTRAY_REPO_OWNER%/%BINTRAY_REPO%/!pkg_name!/versions"
 
-if exist "deploy\win-apps\win-apps_!pkg_version!_%platform%.7z" (
-    echo Uploading and publishing "deploy\win-apps\win-apps_!pkg_version!_%platform%.7z"
-    %CURL% -H Content-Type:application/octet-stream -T "deploy\win-apps\win-apps_!pkg_version!_%platform%.7z" "%API%/content/%BINTRAY_REPO_OWNER%/%BINTRAY_REPO%/!pkg_name!/!pkg_version!/win-apps_!pkg_version!_%platform%.7z?publish=1&override=1"
+if exist "deploy\win-apps\win-apps_!pkg_version!.7z" (
+    echo Uploading and publishing "deploy\win-apps\win-apps_!pkg_version!.7z"
+    %CURL% -H Content-Type:application/octet-stream -T "deploy\win-apps\win-apps_!pkg_version!.7z" "%API%/content/%BINTRAY_REPO_OWNER%/%BINTRAY_REPO%/!pkg_name!/!pkg_version!/win-apps_!pkg_version!.7z?publish=1&override=1"
 )
 
-if exist "deploy\win-client\win-client_!pkg_version!_%platform%.7z" (
-    echo Uploading and publishing "deploy\win-client\win-client_!pkg_version!_%platform%.7z"
-    %CURL% -H Content-Type:application/octet-stream -T "deploy\win-client\win-client_!pkg_version!_%platform%.7z" "%API%/content/%BINTRAY_REPO_OWNER%/%BINTRAY_REPO%/!pkg_name!/!pkg_version!/win-client_!pkg_version!_%platform%.7z?publish=1&override=1"
+if exist "deploy\win-client\win-client_!pkg_version!.7z" (
+    echo Uploading and publishing "deploy\win-client\win-client_!pkg_version!.7z"
+    %CURL% -H Content-Type:application/octet-stream -T "deploy\win-client\win-client_!pkg_version!.7z" "%API%/content/%BINTRAY_REPO_OWNER%/%BINTRAY_REPO%/!pkg_name!/!pkg_version!/win-client_!pkg_version!.7z?publish=1&override=1"
 )
 
-if exist "deploy\win-manager\win-manager_!pkg_version!_%platform%.7z" (
-    echo Uploading and publishing "deploy\win-manager\win-manager_!pkg_version!_%platform%.7z"
-    %CURL% -H Content-Type:application/octet-stream -T "deploy\win-manager\win-manager_!pkg_version!_%platform%.7z" "%API%/content/%BINTRAY_REPO_OWNER%/%BINTRAY_REPO%/!pkg_name!/!pkg_version!/win-manager_!pkg_version!_%platform%.7z?publish=1&override=1"
+if exist "deploy\win-manager\win-manager_!pkg_version!.7z" (
+    echo Uploading and publishing "deploy\win-manager\win-manager_!pkg_version!.7z"
+    %CURL% -H Content-Type:application/octet-stream -T "deploy\win-manager\win-manager_!pkg_version!.7z" "%API%/content/%BINTRAY_REPO_OWNER%/%BINTRAY_REPO%/!pkg_name!/!pkg_version!/win-manager_!pkg_version!.7z?publish=1&override=1"
 )
 
 rem if defined APPVEYOR_JOB_ID (
