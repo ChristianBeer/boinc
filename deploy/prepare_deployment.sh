@@ -148,5 +148,3 @@ case $TYPE in
 esac
 
 export SOURCE_PREFIX="${TARGET_PREFIX}"
-
-./deploy/deploy_to_bintray.sh deploy/${TYPE}
