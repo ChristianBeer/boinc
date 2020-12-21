@@ -40,7 +40,7 @@ if [[ $# != 1 ]]; then
 fi
 
 SOURCE_DIR="$1"
-if [[ ! -d "${SOURCE_DIR}" || $(ls -A "${SOURCE_DIR}" | wc -l) -eq 0 ]]; then
+if [[ ! -d "${SOURCE_PREFIX}_${SOURCE_DIR}" || $(ls -A "${SOURCE_PREFIX}_${SOURCE_DIR}" | wc -l) -eq 0 ]]; then
     echo "Directory '$SOURCE_DIR' doesn't exist or is empty";
     exit 1;
 fi
@@ -53,7 +53,7 @@ fi
 
 #CI_RUN="${GITHUB_ACTIONS:-false}"
 CI_RUN="false"
-BOINC_TYPE="$(basename "${SOURCE_DIR}")" # TODO: do not infer TYPE from directory, instead make it an argument
+BOINC_TYPE="$(basename "${SOURCE_PREFIX}_${SOURCE_DIR}")" # TODO: do not infer TYPE from directory, instead make it an argument
 API=https://api.bintray.com
 BINTRAY_USER="${BINTRAY_USER:-ChristianBeer}"
 BINTRAY_API_KEY="$BINTRAY_API_KEY" # env
@@ -128,10 +128,10 @@ data="[{\"name\": \"PR\", \"values\": [\"${pr}\"], \"type\": \"string\"},
 echo $data
 ${CURL} -H Content-Type:application/json -X POST -d "${data}" "${API}/packages/${BINTRAY_REPO_OWNER}/${BINTRAY_REPO}/${PKG_NAME}/versions/${VERSION}/attributes"
 
-echo "Uploading and publishing ${SOURCE_DIR}/${BOINC_TYPE}.7z..."
-if [ -f "${SOURCE_DIR}/${BOINC_TYPE}.7z" ]; then
+echo "Uploading and publishing ${SOURCE_PREFIX}_${SOURCE_DIR}/${BOINC_TYPE}.7z..."
+if [ -f "${SOURCE_PREFIX}_${SOURCE_DIR}/${BOINC_TYPE}.7z" ]; then
     set +x
-    ${CURL} -H Content-Type:application/octet-stream -T "${SOURCE_DIR}/${BOINC_TYPE}.7z" "${API}/content/${BINTRAY_REPO_OWNER}/${BINTRAY_REPO}/${PKG_NAME}/${VERSION}/${BOINC_TYPE}_${VERSION}.7z?publish=1&override=1"
+    ${CURL} -H Content-Type:application/octet-stream -T "${SOURCE_PREFIX}_${SOURCE_DIR}/${BOINC_TYPE}.7z" "${API}/content/${BINTRAY_REPO_OWNER}/${BINTRAY_REPO}/${PKG_NAME}/${VERSION}/${BOINC_TYPE}_${VERSION}.7z?publish=1&override=1"
 fi
 
 # if [ "$TRAVIS_BUILD_ID" ] ; then

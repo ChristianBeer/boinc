@@ -96,5 +96,5 @@ jobs:
           PULL_REQUEST: ${{ github.event.number }}
           PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          ./deploy/prepare_deployment.sh linux_${{ matrix.type }} deploy/linux_${{ matrix.type }}/ 
-          ./deploy/deploy_to_bintray.sh deploy/linux_${{ matrix.type }}/
+          ./deploy/prepare_deployment.sh ${{ matrix.type }} deploy/${{ matrix.type }}/ 
+          ./deploy/deploy_to_bintray.sh deploy/${{ matrix.type }}/
