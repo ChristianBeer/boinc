@@ -6,7 +6,7 @@ set build_date=%YYYY%-%MM%-%DD%
 
 rem Default values because %bintray_deploy% is currently unused
 set pkg_name=custom
-set git_rev=%GITHUB_SHA:~0,7%
+set git_rev=%GITHUB_SHA:~0,8%
 set pkg_version=custom_%build_date%_!git_rev!
 set pkg_version_desc=Custom build created on %build_date%
 rem if not defined GITHUB_ACTIONS (
@@ -19,20 +19,21 @@ set bintray_deploy=True
 if "%CI_RUN%" == "True" (
     if "%GITHUB_EVENT_NAME%" == "pull_request" (
         set pkg_name=pull-requests
-        set git_rev=%PULL_REQUEST_SHA:~0,7%
+        set git_rev=%PULL_REQUEST_SHA:~0,8%
         set pkg_version=PR%PULL_REQUEST%_%build_date%_!git_rev!
         set pkg_version_desc=CI build created from PR #%PULL_REQUEST% on %build_date%
         set bintray_deploy=True
     )
     if "%GITHUB_EVENT_NAME%" == "schedule" (
         set pkg_name=weekly
+        set git_rev=%GITHUB_SHA:~0,8%
         set pkg_version=weekly_%build_date%_!git_rev!
         set pkg_version_desc=Weekly CI build created on %build_date%
         set bintray_deploy=True
     )
     if "%GITHUB_EVENT_NAME%" == "push" (
         set pkg_name=master
-        set git_rev=%GITHUB_SHA:~0,7%
+        set git_rev=%GITHUB_SHA:~0,8%
         set pkg_version=master_%build_date%_!git_rev!
         set pkg_version_desc=Custom build created on %build_date%
         set bintray_deploy=True

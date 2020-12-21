@@ -67,7 +67,7 @@ CURL="curl -u${BINTRAY_USER}:${BINTRAY_API_KEY} -H Accept:application/json -w \n
 #CURL="echo " # use this for local debugging
 
 BUILD_DATE=$(date "+%Y-%m-%d")
-GIT_REV=$(git rev-parse --short HEAD)
+GIT_REV=${GITHUB_SHA:0:8}
 PKG_NAME="custom"
 PKG_DESC="Automated CI build of BOINC components"
 VERSION="custom_${BUILD_DATE}_${GIT_REV}"
@@ -83,6 +83,7 @@ if [[ $CI_RUN == "true" ]]; then
         ;;
         schedule)
             PKG_NAME="weekly"
+            GIT_REV=${GITHUB_SHA:0:8}
             VERSION="weekly_${BUILD_DATE}_${GIT_REV}"
             VERSION_DESC="Weekly CI build created on ${BUILD_DATE}"
             # run cleanup script once a month
