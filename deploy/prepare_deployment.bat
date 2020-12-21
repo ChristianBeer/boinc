@@ -14,6 +14,7 @@ rem     set GITHUB_ACTIONS=False
 rem )
 rem set CI_RUN=%GITHUB_ACTIONS%
 set CI_RUN=False
+set bintray_deploy=True
 
 if "%CI_RUN%" == "True" (
     if "%GITHUB_EVENT_NAME%" == "pull_request" (
