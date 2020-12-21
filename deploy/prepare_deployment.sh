@@ -31,7 +31,6 @@ if [ ! -d "deploy" ]; then
 fi
 
 ROOTDIR=$(pwd)
-TARGET_PREFIX="linux"
 # main funtion is at the end
 
 cp_if_exists() {
@@ -41,11 +40,11 @@ cp_if_exists() {
 }
 
 prepare_7z_archive() {
-    if [[ $(ls -A "${TARGET_PREFIX}_${TARGET_DIR}" | wc -l) -eq 0 ]]; then
+    if [[ $(ls -A "${TARGET_DIR}" | wc -l) -eq 0 ]]; then
         echo "Directory '$TARGET_DIR' is empty";
         exit 1;
     fi
-    cd "${TARGET_PREFIX}_${TARGET_DIR}"
+    cd "${TARGET_DIR}"
     7z a "${TYPE}.7z" '-x!*.7z' '*'  &>/dev/null
     if [ $? -gt 1 ]; then # an exit code of 1 is still a success says 7z
         cd ${ROOTDIR}
@@ -55,49 +54,49 @@ prepare_7z_archive() {
 }
 
 prepare_client() {
-    mkdir -p "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists client/boinc "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists client/boinccmd "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists client/switcher "${TARGET_PREFIX}_${TARGET_DIR}"
+    mkdir -p "${TARGET_DIR}"
+    cp_if_exists client/boinc "${TARGET_DIR}"
+    cp_if_exists client/boinccmd "${TARGET_DIR}"
+    cp_if_exists client/switcher "${TARGET_DIR}"
     prepare_7z_archive
 }
 
 prepare_apps() {
-    mkdir -p "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists samples/condor/boinc_gahp "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists samples/example_app/uc2 "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists samples/example_app/ucn "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists samples/example_app/uc2_graphics "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists samples/example_app/slide_show "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists samples/multi_thread/multi_thread "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists samples/sleeper/sleeper "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists samples/vboxmonitor/vboxmonitor "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists samples/vboxwrapper/vboxwrapper "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists samples/worker/worker "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists samples/wrapper/wrapper "${TARGET_PREFIX}_${TARGET_DIR}"
+    mkdir -p "${TARGET_DIR}"
+    cp_if_exists samples/condor/boinc_gahp "${TARGET_DIR}"
+    cp_if_exists samples/example_app/uc2 "${TARGET_DIR}"
+    cp_if_exists samples/example_app/ucn "${TARGET_DIR}"
+    cp_if_exists samples/example_app/uc2_graphics "${TARGET_DIR}"
+    cp_if_exists samples/example_app/slide_show "${TARGET_DIR}"
+    cp_if_exists samples/multi_thread/multi_thread "${TARGET_DIR}"
+    cp_if_exists samples/sleeper/sleeper "${TARGET_DIR}"
+    cp_if_exists samples/vboxmonitor/vboxmonitor "${TARGET_DIR}"
+    cp_if_exists samples/vboxwrapper/vboxwrapper "${TARGET_DIR}"
+    cp_if_exists samples/worker/worker "${TARGET_DIR}"
+    cp_if_exists samples/wrapper/wrapper "${TARGET_DIR}"
     prepare_7z_archive
 }
 
 prepare_manager() {
-    mkdir -p "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists clientgui/boincmgr "${TARGET_PREFIX}_${TARGET_DIR}"
+    mkdir -p "${TARGET_DIR}"
+    cp_if_exists clientgui/boincmgr "${TARGET_DIR}"
     prepare_7z_archive
 }
 
 prepare_apps_mingw() {
-    mkdir -p "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists lib/wrapper.exe "${TARGET_PREFIX}_${TARGET_DIR}"
+    mkdir -p "${TARGET_DIR}"
+    cp_if_exists lib/wrapper.exe "${TARGET_DIR}"
     prepare_7z_archive
 }
 
 prepare_osx() {
-    mkdir -p "${TARGET_PREFIX}_${TARGET_DIR}"
+    mkdir -p "${TARGET_DIR}"
 }
 
 prepare_android() {
-    mkdir -p "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists android/BOINC/app/build/outputs/apk/debug/app-debug.apk "${TARGET_PREFIX}_${TARGET_DIR}"
-    cp_if_exists android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk "${TARGET_PREFIX}_${TARGET_DIR}"
+    mkdir -p "${TARGET_DIR}"
+    cp_if_exists android/BOINC/app/build/outputs/apk/debug/app-debug.apk "${TARGET_DIR}"
+    cp_if_exists android/BOINC/app/build/outputs/apk/release/app-release-unsigned.apk "${TARGET_DIR}"
     prepare_7z_archive
 }
 
@@ -113,38 +112,29 @@ TYPE="$1"
 TARGET_DIR="${2:-deploy/$TYPE/}"
 
 case $TYPE in
-    client)
+    linux_client)
         prepare_client
-        TARGET_PREFIX="linux"
     ;;
-    apps)
+    linux_apps)
         prepare_apps
-        TARGET_PREFIX="linux"
     ;;
-    manager-with-webview)
+    linux_manager-with-webview)
         prepare_manager
-        TARGET_PREFIX="linux"
     ;;
-    manager-without-webview)
+    linux_manager-without-webview)
         prepare_manager
-        TARGET_PREFIX="linux"
     ;;
-    apps-mingw)
+    linux_apps-mingw)
         prepare_apps_mingw
-        TARGET_PREFIX="win"
     ;;
     osx_manager)
         prepare_osx
-        TARGET_PREFIX="osx"
     ;;
     android_manager)
         prepare_android
-        TARGET_PREFIX="android"
     ;;
     *)
         echo "unrecognized BOINC_TYPE $key"
         exit 1
     ;;
 esac
-
-export SOURCE_PREFIX="${TARGET_PREFIX}"
