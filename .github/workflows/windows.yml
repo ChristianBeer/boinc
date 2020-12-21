@@ -81,5 +81,5 @@ jobs:
           platform: ${{ matrix.platform }}
           configuration: ${{ matrix.configuration }}
         run: |
-          deploy\prepare_deployment.bat
-          deploy\deploy_to_bintray.bat
+          call deploy\prepare_deployment.bat
+          call deploy\deploy_to_bintray.bat
