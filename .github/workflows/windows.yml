@@ -80,6 +80,7 @@ jobs:
           CURL_PATH: ${{ github.workspace }}\temp\curl-7.74.0_2-win64-mingw\bin\
           platform: ${{ matrix.platform }}
           configuration: ${{ matrix.configuration }}
-        run: |
+        shell: cmd
+        run: 
           call deploy\prepare_deployment.bat
           call deploy\deploy_to_bintray.bat
