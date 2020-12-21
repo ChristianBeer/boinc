@@ -57,3 +57,27 @@ jobs:
 
       - name: Run tests
         run: vstest.console.exe win_build\Build\${{ matrix.platform }}\${{ matrix.configuration }}\unittests.exe /TestAdapterPath:${{ github.workspace }}\temp\GoogleTestAdapter
+
+      - name: Download curl
+        uses: suisei-cn/actions-download-file@v1
+        id: DownloadCurl
+        with:
+          url: "https://curl.se/windows/dl-7.74.0_2/curl-7.74.0_2-win64-mingw.zip"
+          target: ${{ github.workspace }}\temp\
+      
+      - name: Unzip Curl
+        uses: DuckSoft/extract-7z-action@v1.0
+        with:
+          pathSource: ${{ github.workspace }}\temp\curl-7.74.0_2-win64-mingw.zip
+          pathTarget: ${{ github.workspace }}\temp\
+
+      - name: Deploy to BinTray
+        if: ${{ success() }}
+        env:
+          BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
+          PULL_REQUEST: ${{ github.event.number }}
+          PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
+          CURL_PATH: ${{ github.workspace }}\temp\curl-7.74.0_2-win64-mingw\bin\
+        run: |
+          ./deploy/prepare_deployment.sh linux_${{ matrix.type }} deploy/linux_${{ matrix.type }}/ 
+          ./deploy/deploy_to_bintray.sh deploy/linux_${{ matrix.type }}/

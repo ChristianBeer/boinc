@@ -36,7 +36,7 @@ rem Mandatory for packages in free Bintray repos
 if not defined VCS_URL (
     set VCS_URL=https://github.com/BOINC/boinc.git
 ) 
-set CURL=curl -u%BINTRAY_USER%:%BINTRAY_API_KEY% -H Accept:application/json -w \n
+set CURL=%CURL_PATH%curl -u%BINTRAY_USER%:%BINTRAY_API_KEY% -H Accept:application/json -w \n
 rem use this for local debugging
 rem set CURL=echo
 
@@ -56,7 +56,7 @@ if not defined build_date (
     set build_date=%YYYY%-%MM%-%DD%
 )
 if not defined git_rev (
-    set git_rev=%APPVEYOR_REPO_COMMIT:~0,8%
+    set git_rev=%GITHUB_SHA:~0,8%
 )
 if not defined pkg_version (
     set pkg_version=custom_%build_date%_!git_rev!

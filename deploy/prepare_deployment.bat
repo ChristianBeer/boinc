@@ -5,23 +5,35 @@ for /f "tokens=2-4 delims=/ "  %%a in ("%date%") do (set MM=%%a& set DD=%%b& set
 set build_date=%YYYY%-%MM%-%DD%
 
 rem Default values because %bintray_deploy% is currently unused
-set pkg_name=master
-set git_rev=%APPVEYOR_REPO_COMMIT:~0,8%
-set pkg_version=master_%build_date%_!git_rev!
+set pkg_name=custom
+set git_rev=%GITHUB_SHA:~0,8%
+set pkg_version=custom_%build_date%_!git_rev!
 set pkg_version_desc=Custom build created on %build_date%
+rem if not defined GITHUB_ACTIONS (
+rem     set GITHUB_ACTIONS=False
+rem )
+rem set CI_RUN=%GITHUB_ACTIONS%
+set CI_RUN=False
 
-if defined APPVEYOR_PULL_REQUEST_NUMBER (
-    set pkg_name=pull-requests
-    set git_rev=%APPVEYOR_PULL_REQUEST_HEAD_COMMIT:~0,8%
-    set pkg_version=PR%APPVEYOR_PULL_REQUEST_NUMBER%_%build_date%_!git_rev!
-    set pkg_version_desc=CI build created from PR #%APPVEYOR_PULL_REQUEST_NUMBER% on %build_date%
-    set bintray_deploy=True
-)
-if defined APPVEYOR_SCHEDULED_BUILD (
-    if "%APPVEYOR_SCHEDULED_BUILD%" == "True" (
+if "%CI_RUN%" == "True" (
+    if "%GITHUB_EVENT_NAME%" == "pull_request" (
+        set pkg_name=pull-requests
+        set git_rev=%PULL_REQUEST_SHA:~0,8%
+        set pkg_version=PR%PULL_REQUEST%_%build_date%_!git_rev!
+        set pkg_version_desc=CI build created from PR #%PULL_REQUEST% on %build_date%
+        set bintray_deploy=True
+    )
+    if "%GITHUB_EVENT_NAME%" == "schedule" (
         set pkg_name=weekly
         set pkg_version=weekly_%build_date%_!git_rev!
         set pkg_version_desc=Weekly CI build created on %build_date%
+        set bintray_deploy=True
+    )
+    if "%GITHUB_EVENT_NAME%" == "push" (
+        set pkg_name=master
+        set git_rev=%GITHUB_SHA:~0,8%
+        set pkg_version=master_%build_date%_!git_rev!
+        set pkg_version_desc=Custom build created on %build_date%
         set bintray_deploy=True
     )
 )
