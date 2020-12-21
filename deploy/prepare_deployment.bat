@@ -45,11 +45,15 @@ copy "win_build\Build\%platform%\%configuration%\wrapper*.exe" "deploy\win-apps\
 copy "win_build\Build\%platform%\%configuration%\vboxwrapper*.exe" "deploy\win-apps\"
 copy "win_build\Build\%platform%\%configuration%\boincsim.exe" "deploy\win-apps\"
 copy "win_build\Build\%platform%\%configuration%\slide_show.exe" "deploy\win-apps\"
-copy "win_build\Build\%platform%\%configuration%\example_app_multi_thread.exe" "deploy\win-apps\"
-copy "win_build\Build\%platform%\%configuration%\example_app_graphics.exe" "deploy\win-apps\"
-copy "win_build\Build\%platform%\%configuration%\example_app.exe" "deploy\win-apps\"
-copy "win_build\Build\%platform%\%configuration%\worker.exe" "deploy\win-apps\"
-copy "win_build\Build\%platform%\%configuration%\sleeper.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\example*.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\worker*.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\sleeper*.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\boinclog.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\boincsim.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\multi_thread*.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\slide_show.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\test*.exe" "deploy\win-apps\"
+copy "win_build\Build\%platform%\%configuration%\wrappture*.exe" "deploy\win-apps\"
 cd deploy\win-apps
 7z a win-apps_!pkg_version!_%platform%.7z *.exe
 cd ..\..
