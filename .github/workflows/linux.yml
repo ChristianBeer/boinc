@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        type: [libs, server, client, apps, manager-with-webview, manager-without-webview, libs-mingw, apps-mingw, unit-test, integration-test]
+        type: [libs, server, client, apps, manager-with-webview, manager-without-webview, unit-test, integration-test]
       fail-fast: false
     steps:
       - uses: actions/checkout@v2
@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get -qq update
-          sudo apt-get install -y freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk2.0-dev libwebkitgtk-dev mingw-w64 binutils-mingw-w64-i686 binutils-mingw-w64-x86-64 gcc-mingw-w64 gcc-mingw-w64-i686 gcc-mingw-w64-x86-64 g++-mingw-w64 g++-mingw-w64-i686 g++-mingw-w64-x86-64 p7zip-full
+          sudo apt-get install -y freeglut3-dev libcurl4-openssl-dev libxmu-dev libxi-dev libfcgi-dev libxss-dev libnotify-dev libxcb-util0-dev libgtk2.0-dev libwebkitgtk-dev p7zip-full
 
       - name: Install dependencies for integration testing
         if: matrix.type == 'integration-test'
@@ -64,21 +64,13 @@ jobs:
       - name: Configure manager without webview
         if: success() && matrix.type == 'manager-without-webview'
         run: ./3rdParty/buildLinuxDependencies.sh --disable-webview && ./configure --disable-server --disable-client --with-wx-prefix=${GITHUB_WORKSPACE}/3rdParty/buildCache/linux
-
-      - name: Make libs with mingw
-        if: success() && matrix.type == 'libs-mingw'
-        run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw
-
-      - name: Make apps with mingw
-        if: success() && matrix.type == 'apps-mingw'
-        run: cd lib && MINGW=x86_64-w64-mingw32 make -f Makefile.mingw wrapper
-        
+      
       - name: Configure server for unit testing
         if: success() && matrix.type == 'unit-test'
         run: ./3rdParty/buildLinuxDependencies.sh --gtest-only && ./configure --disable-client --disable-manager --enable-unit-tests CFLAGS="-g -O0" CXXFLAGS="-g -O0"
         
       - name: Make
-        if: success() && ! contains(matrix.type, 'mingw') && ! contains(matrix.type, 'integration-test')
+        if: success() && ! contains(matrix.type, 'integration-test')
         run: make
 
       - name: Execute unit-test and report coverage
@@ -90,7 +82,7 @@ jobs:
         run: ./integration_test/executeTestSuite.sh
 
       - name: Deploy to BinTray
-        if: ${{ success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'libs-mingw') && ! contains(matrix.type, 'test') }}
+        if: ${{ success() && ! contains(matrix.type, 'libs') && ! contains(matrix.type, 'server') && ! contains(matrix.type, 'test') }}
         env:
           BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
           PULL_REQUEST: ${{ github.event.number }}

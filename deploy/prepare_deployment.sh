@@ -124,7 +124,7 @@ case $TYPE in
     linux_manager-without-webview)
         prepare_manager
     ;;
-    linux_apps-mingw)
+    win_apps-mingw)
         prepare_apps_mingw
     ;;
     osx_manager)
