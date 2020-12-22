@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ master ]
   schedule:
-    - cron:  '* * * * 0'    
+    - cron:  '20 12 * * 0'
 
 jobs:
   build:
@@ -13,7 +13,7 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        type: [manager-osx]
+        type: [manager]
       fail-fast: false
     steps:
       - uses: maxim-lobanov/setup-xcode@v1
@@ -38,4 +38,4 @@ jobs:
       - name: deploy
         if: ${{ success() }}
         run: echo "Would start deployment now"
-        #run: ./deploy/prepare_deployment.sh ${BOINC_TYPE} deploy/${BOINC_TYPE}/ && ./deploy/deploy_to_bintray.sh deploy/${BOINC_TYPE}/
+        #run: ./deploy/prepare_deployment.sh osx_${BOINC_TYPE} deploy/osx_${BOINC_TYPE}/ && ./deploy/deploy_to_bintray.sh deploy/osx_${BOINC_TYPE}/

@@ -5,8 +5,8 @@ on:
   pull_request:
     branches: [ master ]
   schedule:
-    - cron:  '* * * * 0'    
-    
+    - cron:  '15 12 * * 0'
+
 jobs:
   build:
     name: ${{ matrix.configuration }}-${{ matrix.platform }}-build
@@ -27,7 +27,7 @@ jobs:
         with:
           url: "https://github.com/csoltenborn/GoogleTestAdapter/releases/download/v0.18.0/GoogleTestAdapter-0.18.0.vsix"
           target: ${{ github.workspace }}\temp\
-      
+
       - name: Unzip GoogleTestAdapter
         uses: DuckSoft/extract-7z-action@v1.0
         with:
