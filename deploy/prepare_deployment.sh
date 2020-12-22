@@ -19,7 +19,7 @@
 #
 
 ## support script to put all build artefacts into a defined location
-## BOINC_TYPE should always be consistent with content in .travis.yml and appveyor.yml
+## BOINC_TYPE should always be consistent with content in CI configuration files
 ## Change artefacts in each prepare_*() function below.
 ## Don't hardlink files because this can be run on a filesystem without hardlinks
 ## On error always exit non-zero so the deploy script does not run
@@ -103,7 +103,7 @@ prepare_android() {
 ROOTDIR=$(pwd)
 if [[ $# -eq 0 || $# -gt 2 ]]; then
     echo "Usage: $0 BOINC_TYPE [TARGET_DIR]"
-    echo "BOINC_TYPE : [linux_client | linux_apps | linux_manager-with-webview | linux_manager-without-webview | linux_apps-mingw | osx_manager | android_manager]"
+    echo "BOINC_TYPE : [linux_client | linux_apps | linux_manager-with-webview | linux_manager-without-webview | win_apps-mingw | osx_manager | android_manager]"
     echo "TARGET_DIR : relative path where binaries should be copied to (default: deploy/BOINC_TYPE/)"
     exit 1
 fi

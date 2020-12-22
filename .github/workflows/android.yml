@@ -44,6 +44,4 @@ jobs:
           BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
           PULL_REQUEST: ${{ github.event.number }}
           PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
-        run: |
-          ./deploy/prepare_deployment.sh android_${{ matrix.type }} deploy/android_${{ matrix.type }}/
-          ./deploy/deploy_to_bintray.sh deploy/android_${{ matrix.type }}/
+        run: ./deploy/prepare_deployment.sh android_${{ matrix.type }} && ./deploy/deploy_to_bintray.sh deploy/android_${{ matrix.type }}/

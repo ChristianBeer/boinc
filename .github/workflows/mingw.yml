@@ -37,6 +37,4 @@ jobs:
           BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
           PULL_REQUEST: ${{ github.event.number }}
           PULL_REQUEST_SHA: ${{ github.event.pull_request.head.sha }}
-        run: |
-          ./deploy/prepare_deployment.sh win_${{ matrix.type }} deploy/win_${{ matrix.type }}/
-          ./deploy/deploy_to_bintray.sh deploy/win_${{ matrix.type }}/
+        run: ./deploy/prepare_deployment.sh win_${{ matrix.type }} && ./deploy/deploy_to_bintray.sh deploy/win_${{ matrix.type }}/

@@ -67,7 +67,7 @@ CURL="curl -u${BINTRAY_USER}:${BINTRAY_API_KEY} -H Accept:application/json -w \n
 #CURL="echo " # use this for local debugging
 
 BUILD_DATE=$(date "+%Y-%m-%d")
-GIT_REV=${GITHUB_SHA:0:8}
+GIT_REV=$(git rev-parse --short=8 HEAD)
 PKG_NAME="custom"
 PKG_DESC="Automated CI build of BOINC components"
 VERSION="custom_${BUILD_DATE}_${GIT_REV}"
