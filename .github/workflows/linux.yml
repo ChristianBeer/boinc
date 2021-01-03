@@ -93,4 +93,4 @@ jobs:
         if: failure()
         with:
           name: linux_${{ matrix.type }}
-          path: deploy/*.7z
+          path: deploy/linux_${{ matrix.type }}/*.7z
